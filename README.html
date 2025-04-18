@@ -1,26 +1,22 @@
-const express = require('express');
-const axios = require('axios');
-const app = express();
-const port = process.env.PORT || 3000;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Status do Pedido</title>
+</head>
+<body>
+  <h1>Status do pedido</h1>
+  <p id="resultado">Carregando...</p>
 
-// Rota que faz a requisição para a URL do Futransfer
-app.get('/', async (req, res) => {
-    try {
-        // URL fornecida do Futransfer
-        const futransferUrl = 'https://futtransfer.top/orderStatus?orderID=3ebf52a6-bb72-44ae-9786-0acebe201a09&verify=M2ViZjUyYTYtYmI3Mi00NGFlLTk3ODYtMGFjZWJlMjAxYTA5MjAyNS0wNC0xNyAxOToyOTo0NA==';
-        
-        // Realiza a requisição GET para o Futransfer
-        const response = await axios.get(futransferUrl);
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
 
-        // Envia a resposta da requisição como conteúdo JSON
-        res.json(response.data);
-    } catch (error) {
-        // Caso ocorra algum erro, responde com o erro
-        res.status(500).send('Erro ao fazer a requisição para Futransfer');
+    if (id) {
+      document.getElementById('resultado').textContent = `ID do pedido: ${id}`;
+    } else {
+      document.getElementById('resultado').textContent = 'Nenhum ID informado.';
     }
-});
-
-// Inicia o servidor na porta definida
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
+  </script>
+</body>
+</html>
