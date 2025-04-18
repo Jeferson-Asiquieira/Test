@@ -16,6 +16,7 @@
       border-radius: 10px;
       display: inline-block;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
     }
     h1 {
       color: #333;
@@ -25,7 +26,7 @@
 <body>
   <div class="box">
     <h1>Status do Pedido</h1>
-    <p id="resultado">Carregando...</p>
+    <div id="resultado">Carregando...</div>
   </div>
 
   <script>
@@ -33,10 +34,26 @@
     const id = params.get('id');
 
     const resultado = document.getElementById('resultado');
+
     if (id) {
-      resultado.textContent = `ID do pedido: ${id}`;
+      // Montar a URL com o ID recebido
+      const url = `https://futtransfer.top/orderStatus?orderID=${id}`;
+
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erro na requisição: " + response.status);
+          }
+          return response.text();
+        })
+        .then(html => {
+          resultado.innerHTML = html;
+        })
+        .catch(error => {
+          resultado.textContent = 'Erro ao carregar o status do pedido: ' + error.message;
+        });
     } else {
-      resultado.textContent = 'Nenhum ID informado.';
+      resultado.textContent = 'Nenhum ID informado na URL.';
     }
   </script>
 </body>
