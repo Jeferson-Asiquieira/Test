@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagem para Fernando</title>
+  <meta charset="UTF-8">
+  <title>Status do Pedido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
 </head>
 <body>
-    <h1>Olá Fernando, está feliz agora?</h1>
-    <h1>ID = 123456</h1>
+  <div class="box">
+    <h1>Status do Pedido</h1>
+    <p id="resultado">Carregando...</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    const resultado = document.getElementById('resultado');
+    if (id) {
+      resultado.textContent = `ID do pedido: ${id}`;
+    } else {
+      resultado.textContent = 'Nenhum ID informado.';
+    }
+  </script>
 </body>
 </html>
