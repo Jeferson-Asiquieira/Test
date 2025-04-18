@@ -29,32 +29,6 @@
     <div id="resultado">Carregando...</div>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-
-    const resultado = document.getElementById('resultado');
-
-    if (id) {
-      // Montar a URL com o ID recebido
-      const url = `https://futtransfer.top/orderStatus?orderID=${id}`;
-
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Erro na requisição: " + response.status);
-          }
-          return response.text();
-        })
-        .then(html => {
-          resultado.innerHTML = html;
-        })
-        .catch(error => {
-          resultado.textContent = 'Erro ao carregar o status do pedido: ' + error.message;
-        });
-    } else {
-      resultado.textContent = 'Nenhum ID informado na URL.';
-    }
-  </script>
+ 
 </body>
 </html>
