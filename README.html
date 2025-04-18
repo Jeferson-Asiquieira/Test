@@ -1,64 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Status do Pedido</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      text-align: center;
-      padding: 50px;
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Rota que faz a requisição para a URL do Futransfer
+app.get('/', async (req, res) => {
+    try {
+        // URL fornecida do Futransfer
+        const futransferUrl = 'https://futtransfer.top/orderStatus?orderID=3ebf52a6-bb72-44ae-9786-0acebe201a09&verify=M2ViZjUyYTYtYmI3Mi00NGFlLTk3ODYtMGFjZWJlMjAxYTA5MjAyNS0wNC0xNyAxOToyOTo0NA==';
+        
+        // Realiza a requisição GET para o Futransfer
+        const response = await axios.get(futransferUrl);
+
+        // Envia a resposta da requisição como conteúdo JSON
+        res.json(response.data);
+    } catch (error) {
+        // Caso ocorra algum erro, responde com o erro
+        res.status(500).send('Erro ao fazer a requisição para Futransfer');
     }
-    .box {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      display: inline-block;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 800px;
-    }
-    h1 {
-      color: #333;
-    }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h1>Status do Pedido</h1>
-    <div id="resultado">Carregando...</div>
-  </div>
+});
 
-  <script>
-  <script>
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
-  const verify = params.get('verify'); // Certifique-se de pegar o "verify" também.
-
-  const resultado = document.getElementById('resultado');
-
-  if (id && verify) {
-    // Montar a URL com o ID e o verify recebidos
-    const url = `https://proxy-fut.vercel.app/proxy?orderID=${id}&verify=${verify}`;
-
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Erro na requisição: " + response.status);
-        }
-        return response.text();
-      })
-      .then(html => {
-        resultado.innerHTML = html;
-      })
-      .catch(error => {
-        resultado.textContent = 'Erro ao carregar o status do pedido: ' + error.message;
-      });
-  } else {
-    resultado.textContent = 'Nenhum ID ou verify informado na URL.';
-  }
-</script>
-
-  </script>
-</body>
-</html>
+// Inicia o servidor na porta definida
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+});
