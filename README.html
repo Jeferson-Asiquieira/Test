@@ -30,34 +30,35 @@
   </div>
 
   <script>
-    // Pegando os parâmetros da URL
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const verify = params.get('verify'); // Certifique-se de pegar o "verify" também.
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const verify = params.get('verify'); // Certifique-se de pegar o "verify" também.
 
-    const resultado = document.getElementById('resultado');
+  const resultado = document.getElementById('resultado');
 
-    if (id && verify) {
-      // Montar a URL do proxy com o ID e o verify recebidos
-      const url = `https://proxy-fut.vercel.app/proxy?orderID=${id}&verify=${verify}`;
+  if (id && verify) {
+    // Montar a URL com o ID e o verify recebidos
+    const url = `https://proxy-fut.vercel.app/proxy?orderID=${id}&verify=${verify}`;
 
-      // Realizar a requisição para o proxy
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Erro na requisição: " + response.status);
-          }
-          return response.text();
-        })
-        .then(html => {
-          resultado.innerHTML = html;
-        })
-        .catch(error => {
-          resultado.textContent = 'Erro ao carregar o status do pedido: ' + error.message;
-        });
-    } else {
-      resultado.textContent = 'Nenhum ID ou verify informado na URL.';
-    }
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Erro na requisição: " + response.status);
+        }
+        return response.text();
+      })
+      .then(html => {
+        resultado.innerHTML = html;
+      })
+      .catch(error => {
+        resultado.textContent = 'Erro ao carregar o status do pedido: ' + error.message;
+      });
+  } else {
+    resultado.textContent = 'Nenhum ID ou verify informado na URL.';
+  }
+</script>
+
   </script>
 </body>
 </html>
